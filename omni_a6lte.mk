@@ -30,4 +30,3 @@ PRODUCT_NAME := omni_a6lte
 PRODUCT_MODEL := Samsung Galaxy A6 2018
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
-
