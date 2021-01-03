@@ -1,8 +1,0 @@
-ro.hardware=samsungexynos7870
-ro.arch=exynos7870
-ro.chipname=exynos7870
-ro.product.brand=samsung
-ro.product.name=a6lte
-ro.product.device=a6lte
-ro.build.product=a6lte
-ro.treble.enabled=true
