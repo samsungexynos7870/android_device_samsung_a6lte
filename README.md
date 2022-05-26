@@ -1,25 +1,23 @@
-# OrangeFox Recovery Project for the Samsung Galaxy A6 2018
+The Samsung Galaxy A6 (codenamed _"a6lte"_) are a mid-range smartphone from Samsung.
 
-### How to build ###
+It was announced and released in May 2018.
 
-```bash
-# Create dirs
-$ mkdir ofox ; cd ofox
+## Device specifications
 
-# Init repo
-$ repo init --depth=1 -u https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0
+| Device       | Samsung Galaxy A6 2018                            |
+| -----------: | :----------------------------------------------    |
+| SoC          | Samsung Exynos 7870                                |
+| CPU          | Octa-core, 1600 MHz, ARM Cortex-A53, 64-bit, 14 nm |
+| GPU          | Mali-T830                                          |
+| Memory       | 3GB (LPDDR3X)                                      |
+| Shipped Android version | 8.0                                   |
+| Storage      | 32GB eMMC 5.1 flash storage                        |
+| Battery      | Non-removable Li-Io 3000mAh                       |
+| Dimensions   | 149.9 x 70.8 x 7.7 mm                              |
+| Display      | 1480 x 720 (16:9), 5.6  inch                       |
+| Rear camera 1 | 16MP, f/1.7                                       |
+| Front camera  | 16MP                                               |
 
-# Clone a6lte repo
-$ git clone https://gitlab.com/OrangeFox/device/a6lte.git -b fox_9.0 device/samsung/a6lte
+## Device picture
 
-# Sync
-$ repo sync --no-repo-verify -c --force-sync --no-clone-bundle --no-tags --optimized-fetch --prune -j`nproc`
-
-# Build
-$ source build/envsetup.sh ; lunch omni_a6lte-eng ; mka recoveryimage
-```
-## Credits
-2020 @Astrako
-
-## Contact
-Telegram support group: https://t.me/joinchat/D1Jk_VbieGBXOWZt2y8O7A
+![Samsung A6 2018](https://imei24.com/img/samsung/09_32_26_201805030058269277.jpg)
