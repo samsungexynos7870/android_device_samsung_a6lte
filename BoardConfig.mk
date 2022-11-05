@@ -102,3 +102,17 @@ TW_INCLUDE_FUSE_NTFS := true
 
 # Vendor separation
 TARGET_COPY_OUT_VENDOR := vendor
+
+# Partitions
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 39845888
+#### it not needed at right now ####
+#BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432
+#BOARD_CACHEIMAGE_PARTITION_SIZE := 67108864
+#BOARD_VENDORIMAGE_PARTITION_SIZE := 536870912
+#BOARD_SYSTEMIMAGE_PARTITION_SIZE := 4294967296
+
+############################
+######## PBRP FLAGS ########
+############################
+
+PB_TORCH_PATH := /sys/class/leds/flashlight
