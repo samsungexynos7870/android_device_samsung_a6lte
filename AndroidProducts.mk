@@ -14,9 +14,9 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/havoc_a6lte.mk
+    $(LOCAL_DIR)/lineage_a6lte.mk
 
 COMMON_LUNCH_CHOICES := \
-    havoc_a6lte-user \
-    havoc_a6lte-userdebug \
-    havoc_a6lte-eng
+    lineage_a6lte-user \
+    lineage_a6lte-userdebug \
+    lineage_a6lte-eng
