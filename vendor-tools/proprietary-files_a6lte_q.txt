@@ -1,0 +1,25 @@
+# A600FJXU9CVB1
+
+# NFC - ese p3 A600FJXU9CVB1 version does not support nfc
+# vendor/firmware/nfc/sec_s3nrn81_firmware.bin
+# vendor/etc/nfc/sec_s3nrn81_rfreg.bin
+
+# Sensors
+vendor/lib/hw/sensors.universal7870.so
+vendor/lib/libyasalgo.so
+vendor/etc/yas_set.cfg
+
+# Wifi
+vendor/etc/wifi/bcmdhd_apsta.bin_c5
+vendor/etc/wifi/indoorchannel.info
+vendor/etc/wifi/bcmdhd_clm.blob
+vendor/etc/wifi/bcmdhd_apsta.bin_c5_blob
+vendor/etc/wifi/.clminfo
+vendor/etc/wifi/bcmdhd_sta.bin_c5_blob
+vendor/etc/wifi/bcmdhd_sta.bin_c5
+vendor/etc/wifi/bcmdhd_mfg.bin_c5_blob
+vendor/etc/wifi/bcmdhd_mfg.bin_c5
+vendor/etc/wifi/nvram.txt_c5
+vendor/firmware/bcm4345C5_V0069.0172.hcd
+
+

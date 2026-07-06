@@ -29,74 +29,116 @@
 
 #include <stdlib.h>
 
-#include <android-base/file.h>
-#include <android-base/logging.h>
-#include <android-base/properties.h>
-#include <android-base/strings.h>
-
-#include "property_service.h"
-#include "vendor_init.h"
-
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 #include <sys/_system_properties.h>
+#include <android-base/file.h>
+#include <android-base/properties.h>
+#include <android-base/logging.h>
 
-using android::base::GetProperty;
-using android::base::ReadFileToString;
-using android::base::Trim;
-using android::init::property_set;
+#include "vendor_init.h"
 
-#define SERIAL_NUMBER_FILE "/efs/FactoryApp/serial_no"
+using ::android::base::GetProperty;
+using ::android::base::SetProperty;
 
-// copied from build/tools/releasetools/ota_from_target_files.py
-// but with "." at the end and empty entry
-std::vector<std::string> ro_product_props_default_source_order = {
-    "",
-    "product.",
-    "product_services.",
-    "odm.",
-    "vendor.",
-    "system.",
-};
-
-void property_override(char const prop[], char const value[])
-{	
-	prop_info *pi;
-
-	pi = (prop_info*) __system_property_find(prop);
-	if (pi)
-		__system_property_update(pi, value, strlen(value));
-	else
-		__system_property_add(prop, strlen(prop), value, strlen(value));
+void property_override(const std::string& name, const std::string& value)
+{
+    size_t valuelen = value.size();
+    prop_info* pi = (prop_info*) __system_property_find(name.c_str());
+    if (pi != nullptr) {
+        __system_property_update(pi, value.c_str(), valuelen);
+    }
+    else {
+        int rc = __system_property_add(name.c_str(), name.size(), value.c_str(), valuelen);
+        if (rc < 0) {
+            LOG(ERROR) << "property_set(\"" << name << "\", \"" << value << "\") failed: "
+                       << "__system_property_add failed";
+        }
+    }
 }
 
-void property_override_dual(char const system_prop[],
-		char const vendor_prop[], char const value[])
+void property_override_dual(char const system_prop[], char const vendor_prop[],
+    char const value[])
 {
-	property_override(system_prop, value);
-	property_override(vendor_prop, value);
+    property_override(system_prop, value);
+    property_override(vendor_prop, value);
+}
+
+void property_override_quad(const std::string& boot_prop, const std::string& product_prop, const std::string& system_prop, const std::string& vendor_prop, const std::string& value)
+{
+    property_override(boot_prop, value);
+    property_override(product_prop, value);
+    property_override(system_prop, value);
+    property_override(vendor_prop, value);
+}
+
+void init_dsds() {
+    SetProperty("ro.vendor.multisim.set_audio_params", "true");
+    SetProperty("ro.vendor.multisim.simslotcount", "2");
+    SetProperty("persist.radio.multisim.config", "dsds");
 }
 
 void vendor_load_properties()
 {
-	std::string bootloader = GetProperty("ro.bootloader", "");
+    // Init a dummy BT MAC address, will be overwritten later
+    SetProperty("ro.boot.btmacaddr", "00:00:00:00:00:00");
 
-    if (bootloader.find("J600F") != std::string::npos) {
+    std::string bootloader = GetProperty("ro.bootloader","");
 
-	    /* SM-J600F */
-        property_override_dual("ro.product.model", "ro.vendor.product.model", "SM-A320FL");
-        property_override_dual("ro.product.device", "ro.vendor.product.device", "a3y17ltexc");
+    if (bootloader.find("A600FX") == 0) {
+    /* SM-A600F */
+        property_override_quad("ro.product.model", "ro.product.odm.model", "ro.product.system.model", "ro.product.vendor.model", "SM-A600F");
+        property_override_quad("ro.product.name", "ro.product.odm.name", "ro.product.system.name", "ro.product.vendor.name", "a6ltecis");
 
-    }else if (bootloader.find("A320FX") != std::string::npos) {
+        init_dsds();
 
-	    /* SM-A320F */
-        property_override_dual("ro.product.model", "ro.vendor.product.model", "SM-A320F");
-        property_override_dual("ro.product.device", "ro.vendor.product.device", "a3y17ltexx");
+    } else if (bootloader.find("A600FN") == 0) {
+    /* SM-A600FN */
+        property_override_quad("ro.product.model", "ro.product.odm.model", "ro.product.system.model", "ro.product.vendor.model", "SM-A600FN");
+        property_override_quad("ro.product.name", "ro.product.odm.name", "ro.product.system.name", "ro.product.vendor.name", "a6ltexx");
 
-    } else if (bootloader.find("A320Y") != std::string::npos) {
+        init_dsds();
 
-	    /* SM-A320Y */
-        property_override_dual("ro.product.model", "ro.vendor.product.model", "SM-A320Y");
-        property_override_dual("ro.product.device", "ro.vendor.product.device", "a3y17ltedx");
+    } else if (bootloader.find("A600GU") == 0) {
+    /* SM-A600G */
+        property_override_quad("ro.product.model", "ro.product.odm.model", "ro.product.system.model", "ro.product.vendor.model", "SM-A600G");
+        property_override_quad("ro.product.name", "ro.product.odm.name", "ro.product.system.name", "ro.product.vendor.name", "a6lteub");
+
+        init_dsds();
+
+    } else if (bootloader.find("A600GF") == 0) {
+    /* SM-A600GF */
+        property_override_quad("ro.product.model", "ro.product.odm.model", "ro.product.system.model", "ro.product.vendor.model", "SM-A600GF");
+        property_override_quad("ro.product.name", "ro.product.odm.name", "ro.product.system.name", "ro.product.vendor.name", "a6lteins");
+
+        init_dsds();
+
+    } else if (bootloader.find("A600GT") == 0) {
+    /* SM-A600GT */
+        property_override_quad("ro.product.model", "ro.product.odm.model", "ro.product.system.model", "ro.product.vendor.model", "SM-A600GT");
+        property_override_quad("ro.product.name", "ro.product.odm.name", "ro.product.system.name", "ro.product.vendor.name", "a6ltedtvvj");
+
+        init_dsds();
+
+    } else if (bootloader.find("A600G") == 0) {
+    /* SM-A600G */
+        property_override_quad("ro.product.model", "ro.product.odm.model", "ro.product.system.model", "ro.product.vendor.model", "SM-A600G");
+        property_override_quad("ro.product.name", "ro.product.odm.name", "ro.product.system.name", "ro.product.vendor.name", "a6ltedx");
+
+        init_dsds();
+
+    } else if (bootloader.find("A600N") == 0) {
+    /* SM-A600N */
+        property_override_quad("ro.product.model", "ro.product.odm.model", "ro.product.system.model", "ro.product.vendor.model", "SM-A600N");
+        property_override_quad("ro.product.name", "ro.product.odm.name", "ro.product.system.name", "ro.product.vendor.name", "a6ltekx");
+
+        init_dsds();
     }
 
+    /* Common properties*/
+    property_override("ro.build.description", "samsung/a6ltexx/a6lte:10/QP1A.190711.020/A600FNXXU8CUC1:user/release-keys");
+    property_override_quad("ro.product.device", "ro.product.odm.device", "ro.product.system.device", "ro.product.vendor.device", "a6lte");
+
+    std::string device = GetProperty("ro.product.device", "");
+    LOG(ERROR) << "Found bootloader id %s setting build properties for %s device\n" << bootloader.c_str() << device.c_str();
 }
+
