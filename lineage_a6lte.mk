@@ -29,7 +29,7 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 PRODUCT_DEVICE := a6lte
 PRODUCT_NAME := lineage_a6lte
 PRODUCT_BRAND := samsung
-PRODUCT_MODEL := Galaxy J5 2017
+PRODUCT_MODEL := Galaxy A6 2018
 PRODUCT_MANUFACTURER := samsung
 
 TARGET_VENDOR := samsung
