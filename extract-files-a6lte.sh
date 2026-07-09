@@ -43,5 +43,5 @@ COMMON_O_A6LTE_PATH="${TARGET_SOURCES_DIR}/A600FNXXU3ARL4"   # a6lte global Andr
 
 # files
 ./extract-files.sh a6lte vendor-tools/proprietary-files_a6lte_q.txt -n -k $COMMON_Q_A6LTE_PATH
-./extract-files.sh a6lte vendor-tools/proprietary-files_a6lte_o.txt -n -k $COMMON_Q_A6LTE_PATH
+./extract-files.sh a6lte vendor-tools/proprietary-files_a6lte_o.txt -n -k $COMMON_O_A6LTE_PATH
 ./extract-files.sh a6lte vendor-tools/proprietary-files_a6elte.txt -n -k $COMMON_Q_A6ELTE_PATH
