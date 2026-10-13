@@ -40,9 +40,6 @@ for the A6 LTE model strings and packs them in Samsung's DTBH container;
 The kernel defconfig enables `CONFIG_RD_LZMA`, so the build also requires an
 LZMA recovery ramdisk.
 
-This tree does not set an A6 recovery-partition size or an sboot image-size
-cap: neither limit has been verified here. 
-
 ## Credits
 
 2020 @Astrako; 2026 samsungexynos7870
