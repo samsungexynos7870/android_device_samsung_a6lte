@@ -2,6 +2,7 @@
 # Copyright 2017 The Android Open Source Project
 #
 # Copyright (C) 2018-2020 OrangeFox Recovery Project
+# Copyright (C) 2026 samsungexynos7870
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -53,12 +54,21 @@ TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_CONFIG := exynos7870-a6lte_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/exynos7870
+# GCC 4.9 for the 3.18 kernel; clang is used for host tools.
+TARGET_KERNEL_CLANG_COMPILE := false
+TARGET_KERNEL_ADDITIONAL_FLAGS := HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
 
-# Extracted with libbootimg
+# Extracted with libbootimg. The Samsung DTBH image is built from the A6 DTBs
+# and appended by tools/mkbootimg-dt for this version-0 boot image.
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt $(OUT_DIR)/target/product/a6lte/obj/KERNEL_OBJ/arch/$(TARGET_ARCH)/boot/dtb.img
+# No A6 PIT/sboot image-size limit is assumed until its values are verified.
+BOARD_MKBOOTIMG_ARGS += --max-image-size none --expect-ramdisk-compression lzma
+# Recursively expanded on purpose: BoardConfig.mk is read before
+# HOST_OUT_EXECUTABLES exists.
+BOARD_CUSTOM_MKBOOTIMG = $(DEVICE_PATH)/tools/mkbootimg-dt $(HOST_OUT_EXECUTABLES)/mkbootimg
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_KERNEL_IMAGE_NAME := Image dtb.img
+BOARD_KERNEL_IMAGE_NAME := Image
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -66,7 +76,14 @@ BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
+# Partitions (sizes from the stock PIT); the recovery one is also what makes
+# the build system set BUILDING_RECOVERY_IMAGE.
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 39845888
+
+# Kernel defconfig has CONFIG_RD_LZMA; use its supported ramdisk format.
+BOARD_RAMDISK_USE_LZMA := true
+
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
 
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := "ABGR_8888"

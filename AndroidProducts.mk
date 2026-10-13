@@ -14,7 +14,8 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := device/samsung/a6lte/
+PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/twrp_a6lte.mk
 
-include $(call all-makefiles-under,$(LOCAL_PATH))
-PRODUCT_MAKEFILES := $(LOCAL_PATH)/omni_a6lte.mk
+COMMON_LUNCH_CHOICES := \
+    twrp_a6lte-eng
