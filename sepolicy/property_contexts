@@ -1,0 +1,5 @@
+# Bluetooth factory data (bdaddr path) - set by init at boot
+ro.bt.bdaddr_path                  u:object_r:vendor_bluetooth_prop:s0
+
+# FM radio configuration properties (read by FMRadio JNI)
+ro.fm.                             u:object_r:vendor_fm_radio_app_prop:s0

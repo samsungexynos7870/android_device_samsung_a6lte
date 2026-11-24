@@ -1,0 +1,16 @@
+# Shimmed vendor library libbauthserver (LD_SHIM_LIBS target, linker probes it in every domain)
+/vendor/lib(64)?/libbauthserver\.so                     u:object_r:vendor_public_lib_file:s0
+
+# Source-built NFC HAL (hardware/samsung/nfc) - the label the common tree
+# only gives to the samsung binary NFC service
+/(vendor|system/vendor)/bin/hw/android\.hardware\.nfc@1\.2-service\.samsung            u:object_r:hal_nfc_default_exec:s0
+
+# Broadcom FM radio daemon and its control socket
+/(vendor|system/vendor)/bin/fmd                          u:object_r:fmd_exec:s0
+/dev/socket/fmd                                          u:object_r:fmd_socket:s0
+
+# FM LNA enable switch
+/sys/devices/bluetooth/lna_en                            u:object_r:sysfs_bluetooth_writable:s0
+
+# Fingerprint HAL
+/(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.3-service\.a6lte u:object_r:hal_fingerprint_default_exec:s0

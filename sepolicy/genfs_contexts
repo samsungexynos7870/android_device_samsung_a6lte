@@ -1,0 +1,6 @@
+# FM LNA enable switch, also used by init's chown of the node.
+genfscon sysfs /devices/bluetooth/lna_en u:object_r:sysfs_bluetooth_writable:s0
+
+# The BCM combo chip rfkill state node lives under the platform device;
+# the generic /class/rfkill genfscon does not match that real sysfs path.
+genfscon sysfs /devices/bluetooth/rfkill/rfkill0/state u:object_r:sysfs_bluetooth_writable:s0

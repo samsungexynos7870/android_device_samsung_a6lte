@@ -73,7 +73,7 @@ void property_override_quad(const std::string& boot_prop, const std::string& pro
 
 void init_dsds() {
     SetProperty("ro.vendor.multisim.set_audio_params", "true");
-    SetProperty("ro.vendor.multisim.simslotcount", "2");
+    property_override_dual("ro.multisim.simslotcount", "ro.vendor.multisim.simslotcount", "2");
     SetProperty("persist.radio.multisim.config", "dsds");
 }
 
@@ -135,10 +135,11 @@ void vendor_load_properties()
     }
 
     /* Common properties*/
-    property_override("ro.build.description", "samsung/a6ltexx/a6lte:10/QP1A.190711.020/A600FNXXU8CUC1:user/release-keys");
+    property_override("ro.build.description", "a6ltexx-user 10 QP1A.190711.020 A600FNXXU8CUC1 release-keys");
     property_override_quad("ro.product.device", "ro.product.odm.device", "ro.product.system.device", "ro.product.vendor.device", "a6lte");
 
     std::string device = GetProperty("ro.product.device", "");
-    LOG(ERROR) << "Found bootloader id %s setting build properties for %s device\n" << bootloader.c_str() << device.c_str();
+    LOG(ERROR) << "Found bootloader id " << bootloader << " setting build properties for "
+               << device << " device";
 }
 

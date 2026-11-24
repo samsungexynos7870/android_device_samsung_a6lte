@@ -18,15 +18,9 @@ DEVICE_PATH := device/samsung/a6lte
 
 # audio type guard
 TARGET_DEVICE_HAS_TFA_SEC_AUDIO_HAL := false
-TARGET_DEVICE_HAS_SEC_AUDIO_HAL := true
-TARGET_DEVICE_HAS_OSS_AUDIO_HAL := false
-
-ifeq ($(TARGET_DEVICE_HAS_TFA_SEC_AUDIO_HAL),true)
-TARGET_DEVICE_HAS_TFA_AMP := true
-TARGET_DEVICE_HAS_PREBUILT_AUDIO_HAL := true
-else ifeq ($(TARGET_DEVICE_HAS_OSS_AUDIO_HAL),true)
-TARGET_DEVICE_HAS_TFA_AMP := true
-endif
+TARGET_DEVICE_HAS_SEC_AUDIO_HAL := false
+TARGET_DEVICE_HAS_OSS_AUDIO_HAL := true
+TARGET_DEVICE_HAS_TFA_AMP := false
 
 # radio type guard
 TARGET_DEVICE_HAS_SEC_RIL := true
@@ -37,33 +31,33 @@ TARGET_DEVICE_HAS_SEC_GNSS := true
 # prebuilt slsi
 TARGET_DEVICE_HAS_SAMSUNG_SLSI_EXYNOS7870 := false
 
-# TFA
-# TARGET_DEVICE_TFA_MODEL := 9890
-
-# Camera
-TARGET_DEVICE_CAMERA_VER := O
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += \
+    hardware/broadcom/libbt
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml \
+    frameworks/native/data/etc/android.hardware.nfc.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.ese.xml \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
     frameworks/native/data/etc/android.hardware.nfc.hcef.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hcef.xml \
     frameworks/native/data/etc/android.hardware.nfc.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.uicc.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml
 
-ifeq ($(TARGET_DEVICE_HAS_OSS_AUDIO_HAL),true)
-# Custom mixer_paths OSS
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/audio/mixer_paths_oss_j530.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml
-else
 # Custom mixer_paths
+ifeq ($(TARGET_DEVICE_HAS_OSS_AUDIO_HAL),true)
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml \
-    $(DEVICE_PATH)/configs/audio/mixer_gains.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_gains.xml
+    $(DEVICE_PATH)/configs/audio/mixer_paths_oss_a600fn.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml
+else
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/audio/mixer_gains.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_gains.xml \
+    $(DEVICE_PATH)/configs/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml
 endif
 
+# Launch Android API level
+PRODUCT_SHIPPING_API_LEVEL := 26
+
 # Bootanimation
-TARGET_SCREEN_HEIGHT := 1280
+TARGET_SCREEN_HEIGHT := 1480
 TARGET_SCREEN_WIDTH := 720
 
 # Graphics
@@ -71,39 +65,49 @@ PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 PRODUCT_AAPT_PREBUILT_DPI := xhdpi hdpi
 
+# Fingerprint
+PRODUCT_PACKAGES += \
+    android.hardware.biometrics.fingerprint@2.3-service.a6lte
+
 # Bluetooth
+$(call soong_config_set,brcm_libbt,bdroid_buildcfg_include_dir,$(DEVICE_PATH)/bluetooth)
+$(call soong_config_set,brcm_libbt,custom_bt_config,//$(DEVICE_PATH):vnd_a6lte.txt)
+
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl \
     android.hardware.bluetooth@1.0.vendor \
     android.hardware.bluetooth@1.0-service \
+    android.hardware.bluetooth.audio-impl \
     android.hardware.bluetooth.audio@2.0-impl \
+    audio.bluetooth.default \
     libbt-vendor
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/bluetooth/bt_vendor.conf:vendor/etc/bluetooth/bt_vendor.conf
 
-# Fingerprint
-PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.1-service.samsung
-
 # NFC
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/nfc/libnfc-sec-vendor.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-sec-vendor.conf \
-    $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
-    $(LOCAL_PATH)/configs/nfc/nfcee_access.xml:$(TARGET_COPY_OUT_VENDOR)/etc/nfcee_access.xml
+    $(DEVICE_PATH)/configs/nfc/libnfc-sec-vendor.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-sec-vendor.conf \
+    $(DEVICE_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
+    $(DEVICE_PATH)/configs/nfc/nfcee_access.xml:$(TARGET_COPY_OUT_VENDOR)/etc/nfcee_access.xml
 
 # NFC
 PRODUCT_PACKAGES += \
     libnfc-nci \
     libnfc_nci_jni \
-    NfcNci \
     Tag \
     com.android.nfc_extras \
+    android.hardware.nfc@1.2.vendor \
     android.hardware.nfc@1.2-service.samsung
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(DEVICE_PATH)/overlay
+
+# Power
+# power-libperfmgr's HintManager aborts at boot if the hint file is missing.
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/power/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -116,20 +120,25 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
-    android.hardware.wifi@1.0-service \
+    android.hardware.wifi-service \
     hostapd \
     libwifi-hal \
     libwpa_client \
     wificond \
-    wifiloader \
-    wifilogd \
-    wlutil \
     wpa_supplicant \
     wpa_supplicant.conf
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
     $(DEVICE_PATH)/configs/wifi/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf
+
+# FM radio
+# The LineageOS FM radio application is driven by the libfmjni Broadcom
+# backend; fmd owns the combo chip UART while the tuner is in use.
+PRODUCT_PACKAGES += \
+    FMRadio \
+    fmd_a6lte \
+    libfmjni
 
 # Properties
 -include $(DEVICE_PATH)/vendor_prop.mk

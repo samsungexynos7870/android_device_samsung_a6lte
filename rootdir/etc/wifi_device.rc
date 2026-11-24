@@ -32,8 +32,3 @@ on post-fs-data
 on boot
     # for fwpath
     chown wifi root /sys/module/dhd/parameters/firmware_path
-
-on property:vold.decrypt=trigger_restart_framework
-exec /vendor/bin/hw/macloader
-
-
