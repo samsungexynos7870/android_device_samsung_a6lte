@@ -114,7 +114,6 @@ WIFI_AVOID_IFACE_RESET_MAC_CHANGE := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 
 # inherit from common
-TARGET_USES_DEVICE_TOUCH_AIDL := true
 -include device/samsung/universal7870-common/BoardConfigCommon.mk
 
 # BoardConfigCommon assigns generic 0/1 camera sensors after this file is
