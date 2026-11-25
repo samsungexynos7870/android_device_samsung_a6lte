@@ -99,7 +99,7 @@
             "Path": "/sys/devices/virtual/sec/tsp/cmd",
             "Values": [
                 "set_aod_rect,0,0,0,0",
-                "set_aod_rect,720,1280,0,0"
+                "set_aod_rect,720,1480,0,0"
             ],
             "DefaultIndex": 0
         },
@@ -295,7 +295,7 @@
             "PowerHint": "DOUBLE_TAP_TO_WAKE",
             "Node": "DoubleTapToWakeRect",
             "Duration": 0,
-            "Value": "set_aod_rect,720,1280,0,0"
+            "Value": "set_aod_rect,720,1480,0,0"
         }
     ]
 }
