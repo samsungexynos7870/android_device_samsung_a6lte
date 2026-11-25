@@ -114,8 +114,8 @@ WIFI_AVOID_IFACE_RESET_MAC_CHANGE := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 
 # inherit from common
+TARGET_USES_DEVICE_TOUCH_AIDL := true
 -include device/samsung/universal7870-common/BoardConfigCommon.mk
-DEVICE_MANIFEST_FILE := $(filter-out %/universal7870-common/manifest.xml,$(DEVICE_MANIFEST_FILE))
 
 # BoardConfigCommon assigns generic 0/1 camera sensors after this file is
 # parsed, so restore the real a6lte sensor names here.

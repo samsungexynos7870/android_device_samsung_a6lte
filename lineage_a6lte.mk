@@ -65,5 +65,4 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 
 # The universal touch AIDL also exposes high touch polling rate, which
 # a6lte does not support. Use the local KeyDisabler-only service instead.
-PRODUCT_PACKAGES := $(filter-out vendor.lineage.touch-service.universal7870,$(PRODUCT_PACKAGES))
 PRODUCT_PACKAGES += vendor.lineage.touch-service.a6lte
