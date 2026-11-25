@@ -147,3 +147,8 @@ PRODUCT_PACKAGES += \
 $(call inherit-product, device/samsung/universal7870-common/device-common.mk)
 
 $(call inherit-product-if-exists, vendor/samsung/a6lte/a6lte-vendor.mk)
+
+# Eng-only boot property dump for boot diagnostics.
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/debug/a6lte-getprop.sh:$(TARGET_COPY_OUT_VENDOR)/bin/a6lte-getprop.sh \
+    $(DEVICE_PATH)/debug/a6lte-getprop.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/a6lte-getprop.rc
