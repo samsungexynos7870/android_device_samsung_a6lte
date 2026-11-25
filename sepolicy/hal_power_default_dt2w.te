@@ -1,0 +1,2 @@
+# Powerhint writes aot_enable and set_aod_rect to the touch cmd node.
+allow hal_power_default sysfs_touchscreen_writable:file rw_file_perms;
