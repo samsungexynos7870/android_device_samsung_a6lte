@@ -1,0 +1,7 @@
+# Platform-signed FMRadio shares android.uid.system (system_app) and connects
+# to the device-gated Broadcom FM endpoint in the Bluetooth process. The
+# endpoint also authenticates UID 1000 and validates every register access.
+allow system_app bluetooth:unix_stream_socket connectto;
+
+# The Bluetooth process owns and listens on the abstract endpoint socket.
+allow bluetooth self:unix_stream_socket { create bind listen accept };

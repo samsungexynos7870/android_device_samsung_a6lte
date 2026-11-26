@@ -20,6 +20,8 @@
 
 #define BTM_DEF_LOCAL_NAME   "Samsung Galaxy A6 2018"
 
+#define BRCM_FM_HCI_INCLUDED TRUE
+
 #define BTM_WBS_INCLUDED        TRUE    /* Enable WBS */
 #define BTIF_HF_WBS_PREFERRED   FALSE   /* Don't use WBS by default */
 

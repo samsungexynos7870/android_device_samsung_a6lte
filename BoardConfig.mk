@@ -48,11 +48,13 @@ TARGET_OTA_ASSERT_DEVICE := a6lte,a6ltexx,a6ltextc,a6lteub
 BOARD_HAVE_BLUETOOTH := true
 
 # FM Radio
-TARGET_BOARD_HAS_BRCM_FM := true
+# Userspace Broadcom HCI backend. Bluetooth owns the controller and UART; the
+# old fmd/V4L2 path is deliberately not selected.
+BOARD_HAVE_BCM_FM_HCI := true
 
 SOONG_CONFIG_NAMESPACES += libfmjni
 SOONG_CONFIG_libfmjni += vendor
-SOONG_CONFIG_libfmjni_vendor := brcm
+SOONG_CONFIG_libfmjni_vendor := generic
 
 # Kernel
 TARGET_KERNEL_CONFIG := exynos7870-a6lte_defconfig

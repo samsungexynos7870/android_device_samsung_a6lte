@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<resources>
+    <!-- Bluetooth owns the combo chip controller; use the authenticated HCI FM broker. -->
+    <bool name="config_bcmHciFm" translatable="false">true</bool>
+</resources>

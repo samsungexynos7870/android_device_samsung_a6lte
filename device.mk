@@ -72,6 +72,7 @@ PRODUCT_PACKAGES += \
 # Bluetooth
 $(call soong_config_set,brcm_libbt,bdroid_buildcfg_include_dir,$(DEVICE_PATH)/bluetooth)
 $(call soong_config_set,brcm_libbt,custom_bt_config,//$(DEVICE_PATH):vnd_a6lte.txt)
+$(call soong_config_set,brcm_libbt,fm_hci,true)
 
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl \
@@ -133,12 +134,10 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/wifi/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf
 
 # FM radio
-# The LineageOS FM radio application is driven by the libfmjni Broadcom
-# backend; fmd owns the combo chip UART while the tuner is in use.
+# Bluetooth owns the combo chip HCI/UART. FMRadio talks to the device-gated
+# Broadcom FM endpoint in the Bluetooth process.
 PRODUCT_PACKAGES += \
-    FMRadio \
-    fmd_a6lte \
-    libfmjni
+    FMRadio
 
 # Properties
 -include $(DEVICE_PATH)/vendor_prop.mk
