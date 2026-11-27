@@ -105,6 +105,10 @@ PRODUCT_PACKAGES += \
 DEVICE_PACKAGE_OVERLAYS += \
     $(DEVICE_PATH)/overlay
 
+# Static biometric sensor RRO (fingerprint strength)
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/prebuilt/overlay/biometric-rro.apk:$(TARGET_COPY_OUT_PRODUCT)/overlay/biometric-rro.apk
+
 # Power
 # power-libperfmgr's HintManager aborts at boot if the hint file is missing.
 PRODUCT_COPY_FILES += \
