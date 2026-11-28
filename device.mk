@@ -109,6 +109,11 @@ DEVICE_PACKAGE_OVERLAYS += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/prebuilt/overlay/biometric-rro.apk:$(TARGET_COPY_OUT_PRODUCT)/overlay/biometric-rro.apk
 
+# Touch init
+# a6lte has no touch HAL; this fragment owns the boot-time AOD/DT2W writes.
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init/init.a6lte.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.a6lte.rc
+
 # Power
 # power-libperfmgr's HintManager aborts at boot if the hint file is missing.
 PRODUCT_COPY_FILES += \

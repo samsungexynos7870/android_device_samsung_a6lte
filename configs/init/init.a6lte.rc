@@ -1,0 +1,5 @@
+# a6lte has no touch HAL and no hardware touch keys. This fragment only
+# enables the touch controller's AOD/double-tap wake mode once Android is up.
+on property:sys.boot_completed=1
+    write /sys/class/sec/tsp/cmd aot_enable,1
+    write /sys/class/sec/tsp/cmd set_aod_rect,720,1480,0,0

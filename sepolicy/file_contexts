@@ -9,5 +9,3 @@
 # Fingerprint HAL
 /(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.3-service\.a6lte u:object_r:hal_fingerprint_default_exec:s0
 
-# a6lte-local KeyDisabler-only touch AIDL
-/(vendor|system/vendor)/bin/hw/vendor\.lineage\.touch-service\.a6lte     u:object_r:hal_lineage_touch_default_exec:s0

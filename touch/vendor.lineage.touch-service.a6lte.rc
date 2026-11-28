@@ -1,9 +1,0 @@
-# a6lte has no hardware touch keys, so there is no IKeyDisabler instance to
-# register. Keep this init fragment only for the boot-time AOD/DT2W writes.
-# Enable the touch controller's AOD/double-tap wake mode once Android is up.
-# PowerHAL exposes the same command through the DOUBLE_TAP_TO_WAKE hint, but
-# the hint default alone is not written at boot by libperfmgr.
-on property:sys.boot_completed=1
-    write /sys/class/sec/tsp/cmd aot_enable,1
-    write /sys/class/sec/tsp/cmd set_aod_rect,720,1480,0,0
-
