@@ -63,6 +63,7 @@ TARGET_GAPPS_ARCH := arm64
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     lineage.updater.uri=https://raw.githubusercontent.com/Exynos7870-labs/lineage_release/22.2/{device}.json
 
-# The universal touch AIDL also exposes high touch polling rate, which
-# a6lte does not support. Use the local KeyDisabler-only service instead.
+# a6lte has no hardware touch keys and the universal touch AIDL also exposes
+# high touch polling rate, which a6lte does not support. Keep the local init
+# fragment for boot-time AOD/DT2W setup, but do not advertise IKeyDisabler.
 PRODUCT_PACKAGES += vendor.lineage.touch-service.a6lte
